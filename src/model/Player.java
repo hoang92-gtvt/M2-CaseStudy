@@ -1,6 +1,8 @@
 package model;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private String id;
     private String pass;
     private int numberOfHour = 1;
@@ -8,10 +10,10 @@ public class Player {
     public Player() {
     }
 
-    public Player(String id, String pass, int numberOfHour) {
+    public Player(String id, String pass) {
         this.id = id;
         this.pass = pass;
-        this.numberOfHour = numberOfHour;
+
     }
 
     public String getId() {

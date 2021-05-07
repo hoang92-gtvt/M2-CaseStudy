@@ -1,8 +1,10 @@
 package model;
 
-public class Computer {
+import java.io.Serializable;
+
+public class Computer implements Serializable {
     private String id;
-    private Boolean status;
+    private Boolean status = false;
     private Player playerOfGame;
 
 
@@ -37,6 +39,13 @@ public class Computer {
 
     public void setPlayerOfGame(Player playerOfGame) {
         this.playerOfGame = playerOfGame;
+    }
+
+    public Boolean getOnComputer(){
+        if(!getStatus()){
+            return true;
+        }
+        return getStatus();
     }
 
     @Override

@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Bill {
+public class Bill implements Serializable {
     public static final int COSTFORHOUR = 5000;
     private String id;
     private Player player;
