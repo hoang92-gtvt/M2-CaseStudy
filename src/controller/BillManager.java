@@ -16,7 +16,7 @@ public class BillManager extends Manager<Bill> {
 
     @Override
     public void add(Bill element) {
-        list.add(element);
+        super.add(element);
         writeFile();
     }
 

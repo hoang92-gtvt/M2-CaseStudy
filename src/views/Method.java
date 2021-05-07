@@ -7,6 +7,7 @@ import controller.PlayerManager;
 import model.Bill;
 import model.Computer;
 import model.Player;
+import model.Service;
 import storage.FileManager;
 
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Method {
-    private static Pattern pattern;
-    private static Matcher matcher;
+//    private static Pattern pattern;
+//    private static Matcher matcher;
     private  static Scanner scanner = new Scanner(System.in);
     private  static ArrayList<Player> playerList = new ArrayList();
     private  static ArrayList<Computer> computerList=new ArrayList();
@@ -26,15 +27,11 @@ public class Method {
     Manager playerManager = new PlayerManager(playerList);
     Manager computerManager = new ComputerManager(computerList);
     Manager billManager = new BillManager(billList);
-
-
-
-
     private static FileManager fileManager= FileManager.getInstance();
 
 
-    private static final String EMAIL_REGEX =   "^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)$";
-    private static final String NUMPHONE_REGEX = "^[0-9]{10}";
+
+
 
     public Method() {
         try {
@@ -45,19 +42,9 @@ public class Method {
             System.err.println("Đọc file thất bại");
         }
     }
-    public static boolean validateNumPhone(String regex) {
-        pattern = Pattern.compile(NUMPHONE_REGEX);
-        matcher = pattern.matcher(regex);
-        return matcher.matches();
-    }
 
-    public static boolean validate(String regex) {
-        pattern = Pattern.compile(EMAIL_REGEX);
-        matcher = pattern.matcher(regex);
-        return matcher.matches();
-    }
 
-    public  Player  inputPlayer() {
+    public  Player  inputPlayerAcount() {
         String id = inputIdPlayer();
         String pass= inputPassPlayer();
 //        Player newPlayer = new Player(id, pass);
@@ -147,24 +134,66 @@ public class Method {
         return check;
     }
 
+    public Service inputSerive(){
+        String nameOfService = inputNameOfService();
+        int priceOfService = inputPriceOfService();
+        return new Service(nameOfService, priceOfService);
+    }
+    private String inputNameOfService(){
+        Boolean check= false;
+        String name= "";
+        do{
+            System.out.println("Nhập tên dịch vụ");
+            name = new Scanner(System.in).nextLine();
+            check = checkNameOfSerive( name);
+        }while(true);
 
+        return name;
+    }
+    private Boolean checkNameOfSerive( String name) {
+        for (Player p:playerList
+        ) {
+            if (p.getId().equals(name)){
+                return true;
+            }
+        }
+        if (!name.matches("^[A-Z]{1}[a-zA-Z]{3,15}$")){
+            return true;
+        }
+        return false;
+    }
+    private int inputPriceOfService(){
+        Boolean check= false;
+        int price;
+        do{
+            System.out.println("Nhập giá của dich vụ");
+            try{
+                price = new Scanner(System.in).nextInt();
+            }catch(Exception e){
+                System.out.println("Bạn nhập không đúng dạng số nguyên dương");
+                check = true;
+            }
+        }while(true);
 
-
-
-
-    public static void displayList() {
-//        for (PhoneBook phoneBook :
-//                phoneBookList) {
-//            System.out.println(phoneBook.toString());
-//        }
+        return price;
     }
 
 
-    public static void delete() {
-//        String sdt = inputSDT();
-//        phoneBookList.removeIf(phoneBook -> sdt.equals(phoneBook.getSdt()));
-//        fileManager.writeFile(phoneBookList);
+
+    public void addPlayerAcount(){
+        Player newPlayer = inputPlayerAcount();
+        playerManager.add(newPlayer);
     }
+    public void addComputer(){
+        Computer newComputer = inputComputer();
+        computerManager.add(newComputer);
+    }
+
+
+
+
+
+
 
 
 

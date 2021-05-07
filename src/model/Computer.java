@@ -33,14 +33,6 @@ public class Computer implements Serializable {
         this.status = status;
     }
 
-    public Player getPlayerOfGame() {
-        return playerOfGame;
-    }
-
-    public void setPlayerOfGame(Player playerOfGame) {
-        this.playerOfGame = playerOfGame;
-    }
-
     public Boolean getOnComputer(){
         if(!getStatus()){
             return true;
