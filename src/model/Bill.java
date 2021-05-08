@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Bill implements Serializable {
@@ -10,16 +11,17 @@ public class Bill implements Serializable {
     private Computer computer;
     private int hourOfGame;
     private ArrayList<Service> lisService = new ArrayList<>();
+    private LocalDate date = LocalDate.now();
 
     public Bill() {
     }
 
-    public Bill(String id, Player player, Computer computer,int hour ,ArrayList<Service> lisService) {
+    public Bill(String id, Player player,int hour ) {
         this.id = id;
         this.player = player;
-        this.computer = computer;
+//        this.computer = computer;
         this.hourOfGame = hour;
-        this.lisService = lisService;
+
 
     }
 
@@ -42,10 +44,10 @@ public class Bill implements Serializable {
     public Computer getComputer() {
         return computer;
     }
-
     public void setComputer(Computer computer) {
         this.computer = computer;
     }
+
 
     public ArrayList<Service> getLisService() {
         return lisService;
@@ -61,6 +63,14 @@ public class Bill implements Serializable {
 
     public void setHourOfGame(int hourOfGame) {
         this.hourOfGame = hourOfGame;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     //phuong thuc tinh tien
@@ -86,6 +96,7 @@ public class Bill implements Serializable {
                 ", computer=" + computer +
                 ", hourOfGame=" + hourOfGame +
                 ", lisService=" + lisService +
+                ", Ngày chơi " + date +
                 '}';
     }
 }

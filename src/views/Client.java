@@ -12,9 +12,9 @@ public class Client {
         System.out.println("6. Danh sách máy đang online ");
         System.out.println("7. Danh sách máy đang offline");
         System.out.println("8. Tính tiền cho khách");
-        System.out.println("9. Thêm dịch vụ vào cho khách");
-        System.out.println("10. Thêm tài khoản đăng nhập mới");
-        System.out.println("11. Xem doanh thu của quán theo ngày");
+        System.out.println("9. Thêm tài khoản đăng nhập mới");
+        System.out.println("10. Xem doanh thu của quán theo ngày");
+//        System.out.println("11. Thêm dịch vụ vào cho khách");
         System.out.println("0. Exit");
 
 
@@ -51,15 +51,16 @@ public class Client {
                 case "8":
                     method.getMoneyForPlayer();
                     break;
-////                case "9":
-////                    method.addServiceForPlayer();
-//                    break;
-                case "10":
+
+                case "9":
                     method.addPlayerAcount();
                     break;
-//                case "11":
-//                    method.getSumMoneyOnDay();
-//                    break;
+                case "10":
+                    method.getSumMoneyOnDay();
+                    break;
+                case "11":
+                    method.addServiceForBill();
+                    break;
                 case "0":
                     System.exit(-1);
             }

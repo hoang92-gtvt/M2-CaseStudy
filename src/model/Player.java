@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Player implements Serializable {
     private String id;
+    private String nameAcount;
     private String pass;
     private Computer computer;
     private int numberOfHour = 1;
@@ -11,8 +12,10 @@ public class Player implements Serializable {
     public Player() {
     }
 
-    public Player(String id, String pass) {
+    public Player(String id, String name, String pass) {
+
         this.id = id;
+        this.nameAcount = name;
         this.pass = pass;
 
     }
@@ -48,6 +51,13 @@ public class Player implements Serializable {
         this.computer = computer;
     }
 
+    public String getNameAcount() {
+        return nameAcount;
+    }
+
+    public void setNameAcount(String nameAcount) {
+        this.nameAcount = nameAcount;
+    }
 
     @Override
     public String toString() {
