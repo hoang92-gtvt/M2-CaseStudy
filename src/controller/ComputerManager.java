@@ -11,7 +11,7 @@ public class ComputerManager extends Manager<Computer> {
     private static final String computerFile = "ComputerFile";
 
     public ComputerManager( ArrayList<Computer> listComputer) {
-        super.list = listComputer;
+        list = listComputer;
     }
 
     @Override
@@ -47,4 +47,10 @@ public class ComputerManager extends Manager<Computer> {
             System.err.println("Lưu file bị lỗi");
         }
     }
+
+    public int getNumberOfComputer(){
+        return list.size();
+    }
+
+
 }

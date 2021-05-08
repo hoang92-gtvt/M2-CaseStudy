@@ -49,17 +49,17 @@ public class Client {
                     method.showComputerOff();
                     break;
                 case "8":
-                    method.getMoney();
+                    method.getMoneyForPlayer();
                     break;
-                case "9":
-                    method.addServiceForPlayer();
-                    break;
+////                case "9":
+////                    method.addServiceForPlayer();
+//                    break;
                 case "10":
                     method.addPlayerAcount();
                     break;
-                case "11":
-                    method.getSumMoney();
-                    break;
+//                case "11":
+//                    method.getSumMoneyOnDay();
+//                    break;
                 case "0":
                     System.exit(-1);
             }
