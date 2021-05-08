@@ -14,43 +14,58 @@ import model.Player;
 import model.Service;
 import storage.FileManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Method {
-//    private static Pattern pattern;
-//    private static Matcher matcher;
 
-    private  static Scanner scanner = new Scanner(System.in);
-    private  static ArrayList<Player> playerList = new ArrayList<>();
-    private  static ArrayList<Computer> computerList=new ArrayList<>();
-    private  static ArrayList<Bill> billList = new ArrayList<>();
+    private static FileManager fileManager= FileManager.getInstance();
+    private  static ArrayList<Player> playerList;
+    private  static ArrayList<Computer> computerList;
+    private  static ArrayList<Bill> billList;
+    static {
+        try {
+            playerList = fileManager.readFile("playerList.txt");
+            computerList = fileManager.readFile("ComputerList.txt");
+            billList = fileManager.readFile("billList.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private final static Service service1 = new Service("nuocngot", 13000);
     private final static Service service2 = new Service("bim bim", 8000);
 
+
+
     Manager playerManager = new PlayerManager(playerList);
     Manager computerManager = new ComputerManager(computerList);
     Manager billManager = new BillManager(billList);
-    private static FileManager fileManager= FileManager.getInstance();
+
 
 
     public Method() {
-        try {
-            this.playerList = fileManager.readFile("playerFile");
-            this.computerList = fileManager.readFile("computerFile");
-            this.computerList = fileManager.readFile("billFile");
-        }catch (Exception e){
-            System.err.println("Đọc file thất bại");
-        }
+//        try {
+//            this.playerList = fileManager.readFile("playerFile");
+//            this.computerList = fileManager.readFile("ComputerFile");
+//            this.computerList = fileManager.readFile("billFile");
+//        }catch (Exception e){
+//            System.err.println("Đọc file thất bại");
+//        }
     }
 
-    public void addPlayerAcount(){
-        Player newPlayer = inputPlayerAcount();
-        playerManager.add(newPlayer);
+    public void showNumberOfComputer(){
+        int number = computerManager.list.size();
+//        int numberOfComputer = computerList.size();
+        System.out.println("Phòng đang có " + number + "máy tính");
     }
 
     public void addComputer(){
@@ -64,15 +79,9 @@ public class Method {
         String id = new Scanner(System.in).nextLine();
 
         GetComputer element = new GetComputerByID();
-        Computer deleteComputer = element.getElement(computerList,id);
+        Computer deleteComputer = element.getElement(computerManager.getList(),id);
         computerManager.delete(deleteComputer);
 
-    }
-
-    public void showNumberOfComputer(){
-        int number = computerManager.list.size();
-//        int numberOfComputer = computerList.size();
-        System.out.println("Phòng đang có " + number + "máy tính");
     }
 
     public void updateComputer(){
@@ -80,7 +89,7 @@ public class Method {
         String id = new Scanner(System.in).nextLine();
 
         GetComputer element = new GetComputerByID();
-        Computer editComputer = element.getElement(computerList,id);
+        Computer editComputer = element.getElement(computerManager.getList(),id);
 
         System.out.println("Nhập giá trị id mới cho máy");
         String newId = new Scanner(System.in).nextLine();
@@ -89,8 +98,8 @@ public class Method {
     }
 
     public void showComputerList(){
-        for (Computer c:computerList
-        ) {
+        ArrayList<Computer> computerList = computerManager.getList();
+        for (Computer c:computerList ) {
             System.out.println(c);
         }
     }
@@ -107,6 +116,7 @@ public class Method {
     }
 
     public void showComputerOff(){
+        ArrayList<Computer> computerList = computerManager.getList();
         for (Computer c:computerList
         ) {
             // "trạng thái off tương ứng với false
@@ -135,7 +145,7 @@ public class Method {
                     newbill.addServiceForBill(service2);
                     break;
                 case 3:
-                     return;
+                     break;
                 default:
                     System.out.println("bạn muốn thêm dịch vụ nào ko");
                     System.out.println("4: Yes");
@@ -143,12 +153,34 @@ public class Method {
                     int choice2 = new Scanner(System.in).nextInt();
                     if (choice2==4){
                         choice=0;
-                    }else return;
-
-
+                    }else choice=3;
             }
         }while(choice==0);
+        System.out.println("Số tiền khách phải trả là : "+ newbill.getMoney());
+        billManager.add (newbill);
 
+    }
+
+    public void addPlayerAcount(){
+        Player newPlayer = inputPlayerAcount();
+        playerManager.add(newPlayer);
+    }
+
+    public void showAcountPlayerList(){
+        ArrayList<Player> playerList = playerManager.getList();
+        for (Player p:playerList ) {
+            System.out.println(p);
+        }
+    }
+
+    public void showBillList(){
+        ArrayList<Bill> billList = billManager.getList();
+        for (Bill b:billList ) {
+            System.out.println(b);
+        }
+    }
+
+    public void getSumMoneyOnDay(){
 
     }
 
@@ -177,12 +209,11 @@ public class Method {
         return id;
     }
     private Boolean checkIDPlayer(Boolean check, String id) {
-        for (Player p:playerList
-             ) {
-            if (p.getId().equals(id)){
+        ArrayList<Player> playerList = playerManager.getList();
+        for (Player p : playerList)
+            if (p.getId().equals(id)) {
                 return true;
             }
-        }
         if (!id.matches("^P[0-9]{2,3}$")){
             check = true;
         }
@@ -192,7 +223,7 @@ public class Method {
         Boolean check = false;
         String name = "";
         do {
-            System.out.println("Nhập name của người chơi");
+            System.out.println("Nhập name của người chơi theo chữ không dấu");
             name = new Scanner(System.in).nextLine();
             check = checkNamePlayer(check, name);
 
@@ -200,13 +231,13 @@ public class Method {
         return name;
     }
     private Boolean checkNamePlayer(Boolean check, String name) {
-        for (Player p:playerList
-        ) {
+        ArrayList<Player> playerList = playerManager.getList();
+        for (Player p:playerList) {
             if (p.getNameAcount().equals(name)){
                 return true;
             }
         }
-        if (!name.matches("^[//w._-]{6,15}$")){
+        if (!name.matches("^[\\w\\._]{6,15}$")){
             check = true;
         }
         return check;
@@ -215,7 +246,7 @@ public class Method {
         Boolean check = false;
         String pass = "";
         do {
-            System.out.println("Nhập mật khẩu của người chơi");
+            System.out.println("Nhập mật khẩu của người chơi từ 6-15 ký tự không dấu");
             pass = new Scanner(System.in).nextLine();
             check = checkPassPlayer(check, pass);
 
@@ -223,8 +254,8 @@ public class Method {
         return pass;
     }
     private Boolean checkPassPlayer(Boolean check, String pass) {
-        for (Player p:playerList
-        ) {
+        ArrayList<Player> playerList = playerManager.getList();
+        for (Player p:playerList) {
             if (p.getPass().equals(pass)){
                 return true;
             }
@@ -232,7 +263,7 @@ public class Method {
         if (pass ==""){
             check = true;
         }
-        if (!pass.matches("^[//w._-]{6,10}$")){
+        if (!pass.matches("^[\\w\\._]{6,15}$")){
             check = true;
         }
         return check;
@@ -257,6 +288,7 @@ public class Method {
         return id;
     }
     private Boolean checkIdComputer(Boolean check, String id) {
+        ArrayList<Computer> computerList = computerManager.getList();
         check = false;
         for (Computer c:computerList
         ) {
@@ -348,7 +380,7 @@ public class Method {
         return id;
     }
     private Boolean checkIdBill(String id){
-
+        ArrayList<Bill> billList = billManager.getList();
         if(!id.matches("^B[0-9]{2}(\\.[0-9]*){3}$")){
             return true;
         }else {

@@ -1,6 +1,7 @@
 package controller;
 
 import model.Computer;
+import model.Player;
 import storage.FileManager;
 
 import java.io.IOException;
@@ -8,10 +9,14 @@ import java.util.ArrayList;
 
 public class ComputerManager extends Manager<Computer> {
 //    private ArrayList<Computer> listComputer= new ArrayList();
-    private static final String computerFile = "ComputerFile";
+    private static final String computerFile = "ComputerFile.txt";
 
     public ComputerManager( ArrayList<Computer> listComputer) {
         list = listComputer;
+    }
+    @Override
+    public ArrayList<Computer> getList() {
+        return list;
     }
 
     @Override

@@ -9,11 +9,13 @@ import java.util.ArrayList;
 public class PlayerManager extends Manager<Player> {
 
 //    private ArrayList<Player>  playerList= new ArrayList();
-    private static final String playerFile = "playerFile";
+    private static final String playerFile = "playerFile.txt";
+
 
     public PlayerManager(ArrayList<Player> playerList) {
         super.list  = playerList;
     }
+
     @Override
     public void add(Player player) {
         list.add(player);

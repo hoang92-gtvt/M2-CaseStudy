@@ -96,6 +96,7 @@ public class Bill implements Serializable {
                 ", computer=" + computer +
                 ", hourOfGame=" + hourOfGame +
                 ", lisService=" + lisService +
+                ", Số tiền phải trả = " + this.getMoney()+
                 ", Ngày chơi " + date +
                 '}';
     }

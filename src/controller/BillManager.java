@@ -1,6 +1,7 @@
 package controller;
 
 import model.Bill;
+import model.Player;
 import storage.FileManager;
 
 import java.io.IOException;
@@ -9,14 +10,19 @@ import java.util.Objects;
 
 public class BillManager extends Manager<Bill> {
 //    private ArrayList<Bill> listBill= new ArrayList();
-    private static final String billFile = "billFile";
+    private static final String billFile = "billFile.txt";
     public BillManager( ArrayList<Bill> listBill) {
         super.list = listBill;
     }
 
     @Override
+    public ArrayList<Bill> getList() {
+        return list;
+    }
+
+    @Override
     public void add(Bill element) {
-        super.add(element);
+        list.add(element);
         writeFile();
     }
 
