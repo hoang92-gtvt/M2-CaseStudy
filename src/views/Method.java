@@ -15,6 +15,7 @@ import model.Service;
 import storage.FileManager;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -168,6 +169,7 @@ public class Method {
         playerManager.delete(deletePlayer);
 
     }
+
     public void showAcountPlayerList(){
         ArrayList<Player> playerList = playerManager.getList();
         for (Player p:playerList ) {
@@ -183,8 +185,22 @@ public class Method {
     }
 
     public void getSumMoneyOnDay(){
-
+        LocalDate date = convertStringToDate();
+        ArrayList<Bill> listBill = billManager.getList();
+        System.out.println("Danh sách bill theo ngày "+ date.toString());
+        int sum = 0;
+        for (Bill b: listBill ) {
+            if(b.getDate().equals(date)){
+                sum +=b.getMoney();
+                System.out.println(b);
+            }
+        }
+        System.out.println("Tổng số tiền thu được trong ngày là "+ sum);
     }
+
+
+
+
 
 
     public  Player  inputPlayerAcount() {
@@ -445,6 +461,36 @@ public class Method {
             }
         }while(true);
 
+    }
+
+
+    private String inputDate(){
+        Boolean check = false;
+        String date= "";
+        do {
+
+            System.out.println("Nhập ngày muốn tính tiền theo định dạng dd/MM/yyyy");
+            date = new Scanner(System.in).nextLine();
+            check = checkDate(date);
+        }while(check);
+        return date;
+    }
+    private boolean checkDate(String date){
+        boolean check= false;
+        ArrayList<Bill> billList = billManager.getList();
+        if(!date.matches("^[0-9]{2}/[0-9]{2}/[0-9]{4}$") ){
+            check= true;
+        }
+        return check;
+    }
+    private LocalDate convertStringToDate(){
+        String date = inputDate();
+        String [] array = date.split("/");
+        int day = Integer.parseInt(array[0]);
+        int month = Integer.parseInt(array[1]);
+        int year = Integer.parseInt(array[2]);
+
+        return LocalDate.of(year, month, day);
     }
 
 
