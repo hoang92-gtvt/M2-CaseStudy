@@ -62,9 +62,10 @@ public class Player implements Serializable {
     @Override
     public String toString() {
         return "Player: " +
-                "id='" + id + '\'' +
-                ", pass='" + pass + '\'' +
-                ", numberOfHour=" + numberOfHour
+                "    id='" + id + '\'' +
+                ",   pass='" + pass + '\'' +
+                ",   name='" + nameAcount + '\'' +
+                ",   numberOfHour=" + numberOfHour
                 ;
     }
 }

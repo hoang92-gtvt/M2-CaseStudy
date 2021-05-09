@@ -11,6 +11,8 @@ import java.util.Objects;
 public class BillManager extends Manager<Bill> {
 //    private ArrayList<Bill> listBill= new ArrayList();
     private static final String billFile = "billFile.txt";
+
+
     public BillManager( ArrayList<Bill> listBill) {
         super.list = listBill;
     }

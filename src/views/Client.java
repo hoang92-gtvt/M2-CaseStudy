@@ -1,8 +1,12 @@
 package views;
 
+import storage.FileManager;
+
 import java.util.Scanner;
 
 public class Client {
+    static final String NAME="hoang";
+    static final String PASS="danphuong";
     public static void showMain() {
         System.out.println("1. Hiện thị số lương máy trong quán");
         System.out.println("2. Thêm một máy mới vào sử dụng");
@@ -13,16 +17,18 @@ public class Client {
         System.out.println("7. Danh sách máy đang offline");
         System.out.println("8. Tính tiền cho khách");
         System.out.println("9. Thêm tài khoản đăng nhập mới");
-        System.out.println("10. Hiện thị danh sách Acount");
-        System.out.println("11. Hiện thị danh sach Bill");
-        System.out.println("12. Doanh thu trong một ngày");
+        System.out.println("10. Xóa bỏ một tài khoản cũ");
+        System.out.println("11. Hiện thị danh sách Acount");
+        System.out.println("12. Hiện thị danh sach Bill");
+        System.out.println("13. Doanh thu trong một ngày");
         System.out.println("0. Exit");
-
-
     }
     public static void main(String[] args) {
+        loginAcount();
+        FileManager fileManager= FileManager.getInstance();
         Method method = new Method();
         Scanner sc = new Scanner(System.in);
+
         String choice = "";
         do {
             showMain();
@@ -57,13 +63,18 @@ public class Client {
                     method.addPlayerAcount();
                     break;
                 case "10":
-                    method.showAcountPlayerList();
+                    method.deletelayerAcount();
                     break;
                 case "11":
-                    method.showBillList();
+                    method.showAcountPlayerList();
                     break;
                 case "12":
+                    method.showBillList();
+                    break;
+                case "13":
                     method.getSumMoneyOnDay();
+                    break;
+
                 case "0":
                     System.exit(-1);
             }
@@ -71,5 +82,22 @@ public class Client {
 
 
     }
-
+    public static void loginAcount(){
+        int count = 3;
+        do {
+            System.out.println("Tên đăng nhập");
+            String name = new Scanner(System.in).nextLine();
+            System.out.println("Nhập mật khẩu đăng nhập");
+            String pass = new Scanner(System.in).nextLine();
+            if (name.equals(NAME) && pass.equals(PASS)) {
+                return;
+            }else {
+                System.out.println("Bạn nhập sai dữ liệu, số lượng lần đăng nhập là 3");
+                count--;
+            }
+        }while(count>0);
+        if (count==0){
+            System.exit(0);
+        }
+    }
 }

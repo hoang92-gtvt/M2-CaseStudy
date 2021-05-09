@@ -24,42 +24,34 @@ import java.util.regex.Pattern;
 
 public class Method {
 
-    private static FileManager fileManager= FileManager.getInstance();
-    private  static ArrayList<Player> playerList;
-    private  static ArrayList<Computer> computerList;
-    private  static ArrayList<Bill> billList;
-    static {
-        try {
-            playerList = fileManager.readFile("playerList.txt");
-            computerList = fileManager.readFile("ComputerList.txt");
-            billList = fileManager.readFile("billList.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+    private static FileManager fileManager = FileManager.getInstance();
+    private static ArrayList<Player> playerList;
+    private static ArrayList<Computer> computerList;
+    private static ArrayList<Bill> billList;
 
 
     private final static Service service1 = new Service("nuocngot", 13000);
     private final static Service service2 = new Service("bim bim", 8000);
 
-
-
-    Manager playerManager = new PlayerManager(playerList);
-    Manager computerManager = new ComputerManager(computerList);
-    Manager billManager = new BillManager(billList);
+    static Manager playerManager;
+    static Manager computerManager;
+    static Manager billManager;
 
 
 
     public Method() {
-//        try {
-//            this.playerList = fileManager.readFile("playerFile");
-//            this.computerList = fileManager.readFile("ComputerFile");
-//            this.computerList = fileManager.readFile("billFile");
-//        }catch (Exception e){
-//            System.err.println("Đọc file thất bại");
-//        }
+        try {
+            playerList = fileManager.readFile("playerFile.txt");
+            computerList = fileManager.readFile("ComputerFile.txt");
+            billList = fileManager.readFile("billFile.txt");
+
+            playerManager = new PlayerManager(playerList);
+            computerManager =new ComputerManager(computerList);
+            billManager = new BillManager(billList);
+
+        }catch (Exception e){
+            System.err.println("Đọc file thất bại");
+        }
     }
 
     public void showNumberOfComputer(){
@@ -99,6 +91,7 @@ public class Method {
 
     public void showComputerList(){
         ArrayList<Computer> computerList = computerManager.getList();
+        System.err.println("Danh sách máy tính trong quán nét ");
         for (Computer c:computerList ) {
             System.out.println(c);
         }
@@ -166,6 +159,15 @@ public class Method {
         playerManager.add(newPlayer);
     }
 
+    public void deletelayerAcount(){
+        System.out.println("Nhập id của tài khoản muốn xóa");
+        String id = new Scanner(System.in).nextLine();
+
+        GetPlayerByID element = new GetPlayerByID();
+        Player deletePlayer = element.getElement(playerManager.getList(),id);
+        playerManager.delete(deletePlayer);
+
+    }
     public void showAcountPlayerList(){
         ArrayList<Player> playerList = playerManager.getList();
         for (Player p:playerList ) {
@@ -183,8 +185,6 @@ public class Method {
     public void getSumMoneyOnDay(){
 
     }
-
-
 
 
     public  Player  inputPlayerAcount() {
@@ -210,12 +210,15 @@ public class Method {
     }
     private Boolean checkIDPlayer(Boolean check, String id) {
         ArrayList<Player> playerList = playerManager.getList();
+        check =false;
         for (Player p : playerList)
             if (p.getId().equals(id)) {
+                System.out.println("Đã tồn tại tên người chơi");
                 return true;
             }
-        if (!id.matches("^P[0-9]{2,3}$")){
+        if (!id.matches("^P[0-9]{2}$")){
             check = true;
+            System.out.println("chưa nhập đúng định dạng");
         }
         return check;
     }
@@ -231,6 +234,7 @@ public class Method {
         return name;
     }
     private Boolean checkNamePlayer(Boolean check, String name) {
+        check = false;
         ArrayList<Player> playerList = playerManager.getList();
         for (Player p:playerList) {
             if (p.getNameAcount().equals(name)){
@@ -254,6 +258,7 @@ public class Method {
         return pass;
     }
     private Boolean checkPassPlayer(Boolean check, String pass) {
+        check = false;
         ArrayList<Player> playerList = playerManager.getList();
         for (Player p:playerList) {
             if (p.getPass().equals(pass)){
@@ -275,7 +280,6 @@ public class Method {
         String id = inputIdComputer();
         return new Computer(id);
     }
-
     private String inputIdComputer(){
         Boolean check = false;
         String id = "";
@@ -288,8 +292,8 @@ public class Method {
         return id;
     }
     private Boolean checkIdComputer(Boolean check, String id) {
-        ArrayList<Computer> computerList = computerManager.getList();
         check = false;
+        ArrayList<Computer> computerList = computerManager.getList();
         for (Computer c:computerList
         ) {
             if (c.getId().equals(id)){
@@ -367,13 +371,12 @@ public class Method {
 
         return new Bill(newId, player, hourOfGame);
     }
-
     private String inputIdBill() {
         Boolean check = false;
         String id= "";
         do {
 
-            System.out.println("Nhập mã Bill theo định dạng B01.dd.MM.yyyy");
+            System.out.println("Nhập mã Bill theo định dạng B01.dd.MM.yy");
             id = new Scanner(System.in).nextLine();
             check = checkIdBill(id);
         }while(check);
@@ -381,7 +384,7 @@ public class Method {
     }
     private Boolean checkIdBill(String id){
         ArrayList<Bill> billList = billManager.getList();
-        if(!id.matches("^B[0-9]{2}(\\.[0-9]*){3}$")){
+        if(!id.matches("^B[0-9]{2}(\\.[0-9]{2}){3}$")){
             return true;
         }else {
             for (Bill b : billList) {
