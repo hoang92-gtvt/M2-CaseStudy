@@ -140,6 +140,7 @@ public class Method {
                     break;
                 case 3:
                      break;
+
                 default:
                     System.out.println("bạn muốn thêm dịch vụ nào ko");
                     System.out.println("4: Yes");
@@ -411,9 +412,12 @@ public class Method {
 
         Player player = inputPlayerOfBill();
         Computer computer = player.getComputer();
-        turnOffComputer(computer);
 
-        int hourOfGame = inputHourOfGame();
+        int hourOfGame = 0;
+        if(isPlayOnGame(player)){
+            turnOffComputer(computer);
+            hourOfGame = inputHourOfGame();
+        }
 
         return new Bill(newId, player, hourOfGame);
     }
@@ -446,7 +450,7 @@ public class Method {
         String idOfPlayer = new Scanner(System.in).nextLine();
 
         GetPlayerByID getPlayerByID = new GetPlayerByID();
-        Player  player = getPlayerByID.getElement(playerOnGameList, idOfPlayer);
+        Player  player = getPlayerByID.getElement(playerManager.getList(), idOfPlayer);
         while(player==null){
             System.out.println("1: Bạn muốn nhập lại");
             System.out.println("2: Bạn muốn thêm mới");
@@ -455,7 +459,7 @@ public class Method {
                 case 1:
                     System.out.println("Nhập mã id người chơi sử dụng dịch vụ P00");
                     idOfPlayer = new Scanner(System.in).nextLine();
-                    player = getPlayerByID.getElement(playerOnGameList, idOfPlayer);
+                    player = getPlayerByID.getElement(playerManager.getList(), idOfPlayer);
                     break;
                 case 2:
                     player = inputPlayerAcount();
@@ -469,6 +473,7 @@ public class Method {
         }
         return player;
     }
+
     private  void turnOffComputer(Computer computer){
         ArrayList<Computer> computerList = computerManager.getList();
         for (Computer c: computerList) {
@@ -477,9 +482,21 @@ public class Method {
             }
         }
     }
+    private boolean isPlayOnGame(Player player){
+        boolean check= false;
+        for (Player p : playerOnGameList) {
+            if (p.getId().equals(player.getId())) {
+                check = true;
+                break;
+            }
+
+        }
+        return check;
+    }
     private int inputHourOfGame(){
         System.out.println("Nhập số giờ chơi");
         int hour =0;
+
         do{
             try {
                 hour = new Scanner(System.in).nextInt();
@@ -490,7 +507,6 @@ public class Method {
         }while(true);
 
     }
-
 
     private String inputDate(){
         Boolean check = false;
