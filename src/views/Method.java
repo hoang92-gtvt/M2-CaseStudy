@@ -4,10 +4,7 @@ import controller.BillManager;
 import controller.ComputerManager;
 import controller.Manager;
 import controller.PlayerManager;
-import controller.getElement.GetComputer;
-import controller.getElement.GetComputerByID;
-import controller.getElement.GetElement;
-import controller.getElement.GetPlayerByID;
+import controller.getElement.*;
 import model.Bill;
 import model.Computer;
 import model.Player;
@@ -29,6 +26,7 @@ public class Method {
     private static ArrayList<Player> playerList;
     private static ArrayList<Computer> computerList;
     private static ArrayList<Bill> billList;
+    private static ArrayList<Player> playerOnGameList = new ArrayList<>();
 
 
     private final static Service service1 = new Service("nuocngot", 13000);
@@ -198,6 +196,29 @@ public class Method {
         System.out.println("Tổng số tiền thu được trong ngày là "+ sum);
     }
 
+    public void setComputerForPlayer(){
+        Player player = inputPlayertoPlay();
+
+        System.out.println("Nhập tên đăng nhập");
+        String name = new Scanner(System.in).nextLine();
+        System.out.println("Nhập pass đăng nhập");
+        String pass = new Scanner(System.in).nextLine();
+
+        if(player.getPass().equals(pass) && player.getNameAcount().equals(name) ){
+
+            GetComputer getComputer = new GetComputerByStatus();
+            Computer computer = getComputer.getElement(computerManager.getList(),"1");
+            if (computer==null){
+                System.out.println("Máy tính đã sử dụng hết");
+            }else {
+                player.setComputer(computer);
+                playerOnGameList.add(player);
+            }
+        }
+
+
+
+    }
 
 
 
@@ -380,8 +401,8 @@ public class Method {
         String newId = inputIdBill();
 
         Player player = inputPlayerOfBill();
-        Computer computerForPlayer = inputComputerForPlayer();
-        player.setComputer(computerForPlayer);
+        Computer computer = player.getComputer();
+        turnOffComputer(computer);
 
         int hourOfGame = inputHourOfGame();
 
@@ -416,7 +437,7 @@ public class Method {
         String idOfPlayer = new Scanner(System.in).nextLine();
 
         GetPlayerByID getPlayerByID = new GetPlayerByID();
-        Player  player = getPlayerByID.getElement(playerList, idOfPlayer);
+        Player  player = getPlayerByID.getElement(playerOnGameList, idOfPlayer);
         while(player==null){
             System.out.println("1: Bạn muốn nhập lại");
             System.out.println("2: Bạn muốn thêm mới");
@@ -425,7 +446,7 @@ public class Method {
                 case 1:
                     System.out.println("Nhập mã id người chơi sử dụng dịch vụ P00");
                     idOfPlayer = new Scanner(System.in).nextLine();
-                    player = getPlayerByID.getElement(playerList, idOfPlayer);
+                    player = getPlayerByID.getElement(playerOnGameList, idOfPlayer);
                     break;
                 case 2:
                     player = inputPlayerAcount();
@@ -439,15 +460,13 @@ public class Method {
         }
         return player;
     }
-    private Computer inputComputerForPlayer(){
-        for (Computer p:computerList
-             ) {
-            if(!p.getStatus()) {
-                p.getOnComputer();
-                return p;
+    private  void turnOffComputer(Computer computer){
+        ArrayList<Computer> computerList = computerManager.getList();
+        for (Computer c: computerList) {
+            if(c.getId().equals(computer.getId())){
+                c.setStatus(false);
             }
         }
-        return null;
     }
     private int inputHourOfGame(){
         System.out.println("Nhập số giờ chơi");
@@ -494,6 +513,19 @@ public class Method {
     }
 
 
+    private Player inputPlayertoPlay(){
+        ArrayList<Player> playerList = playerManager.getList();
+        do{
+            System.out.println("Nhập Id của người chơi ");
+            String id = new Scanner(System.in).nextLine();
+            for (Player p: playerList  ) {
+                if(p.getId().equals(id)){
+                    return p;
+                }
+            }
+            System.out.println("Id chưa tồn tại");
+        }while(true);
+    }
 
 
 

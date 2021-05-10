@@ -22,6 +22,7 @@ public class Client {
         System.out.println("11. Hiện thị danh sách Acount");
         System.out.println("12. Hiện thị danh sach Bill");
         System.out.println("13. Doanh thu trong một ngày");
+        System.out.println("14. Thêm người sử dụng máy tính");
         System.out.println("0. Exit");
     }
     public static void main(String[] args) {
@@ -74,6 +75,9 @@ public class Client {
                     break;
                 case "13":
                     method.getSumMoneyOnDay();
+                    break;
+                case "14":
+                    method.setComputerForPlayer();
                     break;
 
                 case "0":
