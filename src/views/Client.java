@@ -25,8 +25,26 @@ public class Client {
         System.out.println("14. Thêm người sử dụng máy tính");
         System.out.println("0. Exit");
     }
+    public static void loginAcount(){
+        int count = 3;
+        do {
+            System.out.println("Tên đăng nhập");
+            String name = new Scanner(System.in).nextLine();
+            System.out.println("Nhập mật khẩu đăng nhập");
+            String pass = new Scanner(System.in).nextLine();
+            if (name.equals(NAME) && pass.equals(PASS)) {
+                return;
+            }else {
+                System.out.println("Bạn nhập sai dữ liệu, số lượng lần đăng nhập là 3");
+                count--;
+            }
+        }while(count>0);
+        if (count==0){
+            System.exit(0);
+        }
+    }
     public static void main(String[] args) {
-        loginAcount();
+//        loginAcount();
         FileManager fileManager= FileManager.getInstance();
         Method method = new Method();
         Scanner sc = new Scanner(System.in);
@@ -79,6 +97,9 @@ public class Client {
                 case "14":
                     method.setComputerForPlayer();
                     break;
+                case "15":
+                    method.showPlayerOnGameList();
+                    break;
 
                 case "0":
                     System.exit(-1);
@@ -87,22 +108,6 @@ public class Client {
 
 
     }
-    public static void loginAcount(){
-        int count = 3;
-        do {
-            System.out.println("Tên đăng nhập");
-            String name = new Scanner(System.in).nextLine();
-            System.out.println("Nhập mật khẩu đăng nhập");
-            String pass = new Scanner(System.in).nextLine();
-            if (name.equals(NAME) && pass.equals(PASS)) {
-                return;
-            }else {
-                System.out.println("Bạn nhập sai dữ liệu, số lượng lần đăng nhập là 3");
-                count--;
-            }
-        }while(count>0);
-        if (count==0){
-            System.exit(0);
-        }
-    }
+
+
 }

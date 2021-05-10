@@ -90,13 +90,14 @@ public class Method {
 
     public void showComputerList(){
         ArrayList<Computer> computerList = computerManager.getList();
-        System.err.println("Danh sách máy tính trong quán nét ");
+        System.out.println("Danh sách máy tính trong quán nét ");
         for (Computer c:computerList ) {
             System.out.println(c);
         }
     }
 
     public void showComputerOn(){
+        System.out.println("Danh sách máy tính online");
         for (Computer c:computerList
         ) {
             // "trạng thái online tương ứng với true
@@ -108,6 +109,7 @@ public class Method {
     }
 
     public void showComputerOff(){
+        System.out.println("Danh sách máy tính Offline");
         ArrayList<Computer> computerList = computerManager.getList();
         for (Computer c:computerList
         ) {
@@ -208,16 +210,27 @@ public class Method {
 
             GetComputer getComputer = new GetComputerByStatus();
             Computer computer = getComputer.getElement(computerManager.getList(),"1");
+            computer.getOnComputer();
+            System.out.println(computer);
+
             if (computer==null){
                 System.out.println("Máy tính đã sử dụng hết");
             }else {
                 player.setComputer(computer);
                 playerOnGameList.add(player);
             }
+        }else System.out.println("Bạn nhập tài khoản chưa đúng");
+
+
+
+    }
+    public void showPlayerOnGameList(){
+        System.out.println("Danh sách người đang sử dụng máy");
+        for (Player p : playerOnGameList
+             ) {
+            System.out.println(p) ;
+            System.out.print("        " + p.getComputer());
         }
-
-
-
     }
 
 
@@ -228,9 +241,6 @@ public class Method {
         String id = inputIdPlayer();
         String name = inputNameAcount();
         String pass= inputPassPlayer();
-
-//        Player newPlayer = new Player(id, pass);
-//        playerList.add(newPlayer);
         return new Player(id,name, pass);
     }
 
@@ -397,7 +407,6 @@ public class Method {
 
 
     public Bill inputBill(){
-        System.out.println("Nhập mã Bill theo định dạng B01.dd.MM.yyyy");
         String newId = inputIdBill();
 
         Player player = inputPlayerOfBill();
@@ -516,10 +525,11 @@ public class Method {
     private Player inputPlayertoPlay(){
         ArrayList<Player> playerList = playerManager.getList();
         do{
-            System.out.println("Nhập Id của người chơi ");
+            System.out.println("Nhập Id của người chơi theo định dạng P00 ");
             String id = new Scanner(System.in).nextLine();
             for (Player p: playerList  ) {
                 if(p.getId().equals(id)){
+
                     return p;
                 }
             }

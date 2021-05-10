@@ -5,8 +5,6 @@ import java.io.Serializable;
 public class Computer implements Serializable {
     private String id;
     private Boolean status = false;
-    private Player playerOfGame;
-
 
     public Computer() {
 
@@ -33,18 +31,14 @@ public class Computer implements Serializable {
         this.status = status;
     }
 
-    public Boolean getOnComputer(){
-        if(!getStatus()){
-            return true;
-        }
-        return getStatus();
+    public void getOnComputer(){
+        this.status = true;
     }
 
     @Override
     public String toString() {
         return "Computer:"  +
                 "           id='" + id + '\'' +
-                ",          status=" + status +
-                ",          playerOfGame=" + playerOfGame               ;
+                ",          status=" + status  ;
     }
 }
