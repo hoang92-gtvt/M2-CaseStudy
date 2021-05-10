@@ -56,12 +56,14 @@ public class Method {
     public void showNumberOfComputer(){
         int number = computerManager.list.size();
 //        int numberOfComputer = computerList.size();
-        System.out.println("Phòng đang có " + number + "máy tính");
+        System.out.println("Phòng đang có  " + number + "   máy tính");
     }
 
     public void addComputer(){
         Computer newComputer = inputComputer();
         computerManager.add(newComputer);
+        System.out.println("Máy tính đã được thêm vào list");
+        System.out.println(newComputer);
 
     }
 
@@ -72,7 +74,8 @@ public class Method {
         GetComputer element = new GetComputerByID();
         Computer deleteComputer = element.getElement(computerManager.getList(),id);
         computerManager.delete(deleteComputer);
-
+        System.out.println("Máy tính đã bị xóa bỏ");
+        System.out.println(deleteComputer);
     }
 
     public void updateComputer(){
@@ -85,7 +88,8 @@ public class Method {
         System.out.println("Nhập giá trị id mới cho máy");
         String newId = new Scanner(System.in).nextLine();
         computerManager.edit(editComputer,newId);
-
+        System.out.println("Thông tin máy tính sau khi được update");
+        System.out.println(editComputer);
     }
 
     public void showComputerList(){
@@ -144,13 +148,15 @@ public class Method {
                 default:
                     System.out.println("bạn muốn thêm dịch vụ nào ko");
                     System.out.println("4: Yes");
-                    System.out.println("5: No");
+                    System.out.println("Phím số bất kỳ để thoát");
                     int choice2 = new Scanner(System.in).nextInt();
                     if (choice2==4){
                         choice=0;
                     }else choice=3;
             }
         }while(choice==0);
+        System.out.println("Bạn đã thêm một Bill mới");
+        System.out.println(newbill);
         System.out.println("Số tiền khách phải trả là : "+ newbill.getMoney());
         billManager.add (newbill);
 
@@ -159,6 +165,8 @@ public class Method {
     public void addPlayerAcount(){
         Player newPlayer = inputPlayerAcount();
         playerManager.add(newPlayer);
+        System.out.println("Tài khoản đã được thêm vào list");
+        System.out.println(newPlayer);
     }
 
     public void deletelayerAcount(){
@@ -168,6 +176,8 @@ public class Method {
         GetPlayerByID element = new GetPlayerByID();
         Player deletePlayer = element.getElement(playerManager.getList(),id);
         playerManager.delete(deletePlayer);
+        System.out.println("Tài khoản bị xóa bỏ");
+        System.out.println(deletePlayer);
 
     }
 
@@ -229,8 +239,8 @@ public class Method {
         System.out.println("Danh sách người đang sử dụng máy");
         for (Player p : playerOnGameList
              ) {
-            System.out.println(p) ;
-            System.out.print("        " + p.getComputer());
+            System.out.println("Người chơi:     "+ p.getNameAcount()+ ",      Máy tính:"+ p.getComputer()) ;
+
         }
     }
 
@@ -417,6 +427,7 @@ public class Method {
         if(isPlayOnGame(player)){
             turnOffComputer(computer);
             hourOfGame = inputHourOfGame();
+            deletePlayerOnGame(player);
         }
 
         return new Bill(newId, player, hourOfGame);
@@ -493,6 +504,11 @@ public class Method {
         }
         return check;
     }
+    private void deletePlayerOnGame(Player player){
+        playerOnGameList.remove(player);
+        System.out.println("Người chơi không còn sử dụng máy");
+        System.out.println(player);
+    }
     private int inputHourOfGame(){
         System.out.println("Nhập số giờ chơi");
         int hour =0;
@@ -507,6 +523,8 @@ public class Method {
         }while(true);
 
     }
+
+
 
     private String inputDate(){
         Boolean check = false;
@@ -536,6 +554,8 @@ public class Method {
 
         return LocalDate.of(year, month, day);
     }
+
+
 
 
     private Player inputPlayertoPlay(){

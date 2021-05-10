@@ -8,7 +8,9 @@ public class Client {
     static final String NAME="hoang";
     static final String PASS="danphuong";
     public static void showMain() {
+        System.out.println("                                                          ");
         System.out.println("------------Quản lý phòng net Creat by HoangNguyen--------");
+        System.out.println("                          ******                           ");
         System.out.println("1. Hiện thị số lương máy trong quán");
         System.out.println("2. Thêm một máy mới vào sử dụng");
         System.out.println("3. Sửa thông tin của một máy");
@@ -45,7 +47,7 @@ public class Client {
         }
     }
     public static void main(String[] args) {
-//        loginAcount();
+        loginAcount();
         FileManager fileManager= FileManager.getInstance();
         Method method = new Method();
         Scanner sc = new Scanner(System.in);
